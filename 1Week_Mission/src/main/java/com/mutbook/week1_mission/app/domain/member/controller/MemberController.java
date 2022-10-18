@@ -1,6 +1,7 @@
 package com.mutbook.week1_mission.app.domain.member.controller;
 
 import com.mutbook.week1_mission.app.domain.member.dto.JoinDto;
+import com.mutbook.week1_mission.app.domain.member.dto.LoginDto;
 import com.mutbook.week1_mission.app.domain.member.service.MemberService;
 import com.mutbook.week1_mission.util.Util;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,18 @@ public class MemberController {
         memberService.join(joinDto.getUsername(), joinDto.getPassword(), joinDto.getEmail());
 
         return "redirect:/member/login?msg=" + Util.url.encode("회원가입이 완료되었습니다.");
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/login")
+    public String showLogin() {
+        return "member/login";
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @PostMapping("/login")
+    public String login(@Valid LoginDto loginDto) {
+        memberService.login(loginDto.getUsername(), loginDto.getPassword());
+        return "redirect:/" + Util.url.encode("회원가입이 완료되었습니다.");
     }
 }
