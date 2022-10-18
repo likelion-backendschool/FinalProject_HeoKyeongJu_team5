@@ -27,10 +27,8 @@ public class MemberServiceTests {
         String username = "testUser1";
         String password = "test1234";
         String email = "testUser1@test.com";
-        int authLevel = AuthLevel.ROLE_DEFAULT;
-        Type type = Type.USER;
 
-        memberService.join(username, password, email,authLevel,type);
+        memberService.join(username, password, email);
 
         Member foundMember = memberService.findByUsername("testUser1").get();
 
