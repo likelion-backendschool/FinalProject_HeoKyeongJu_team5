@@ -1,11 +1,10 @@
 package com.mutbook.week1_mission.app.domain.member.service;
 
 import com.mutbook.week1_mission.app.domain.member.entity.Member;
-import com.mutbook.week1_mission.app.domain.member.entity.MemberLevel;
+import com.mutbook.week1_mission.app.domain.member.entity.Type;
 import com.mutbook.week1_mission.app.domain.member.exception.AlreadyExistException;
 import com.mutbook.week1_mission.app.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Member join(String username, String password, String email, int memberLevel){
+    public Member join(String username, String password, String email, int authLevel,Type type){
         if (memberRepository.findByUsername(username).isPresent()) {
             throw new AlreadyExistException();
         }
@@ -29,7 +28,8 @@ public class MemberService {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .email(email)
-                .memberLevel(memberLevel)
+                .authLevel(authLevel)
+                .type(type)
                 .build();
 
         memberRepository.save(member);

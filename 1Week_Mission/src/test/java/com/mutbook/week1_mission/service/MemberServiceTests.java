@@ -1,7 +1,8 @@
 package com.mutbook.week1_mission.service;
 
 import com.mutbook.week1_mission.app.domain.member.entity.Member;
-import com.mutbook.week1_mission.app.domain.member.entity.MemberLevel;
+import com.mutbook.week1_mission.app.domain.member.entity.AuthLevel;
+import com.mutbook.week1_mission.app.domain.member.entity.Type;
 import com.mutbook.week1_mission.app.domain.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,14 +27,18 @@ public class MemberServiceTests {
         String username = "testUser1";
         String password = "test1234";
         String email = "testUser1@test.com";
-        int memberLevel = MemberLevel.DEFAULT;
+        int authLevel = AuthLevel.ROLE_DEFAULT;
+        Type type = Type.USER;
 
-        memberService.join(username, password, email,memberLevel);
+        memberService.join(username, password, email,authLevel,type);
 
         Member foundMember = memberService.findByUsername("testUser1").get();
 
         assertThat(foundMember.getCreateDate()).isNotNull();
         assertThat(foundMember.getUsername()).isNotNull();
         assertThat(passwordEncoder.matches(password, foundMember.getPassword())).isTrue();
+        assertThat(foundMember.getAuthLevel()).isEqualTo(3);
+        assertThat(foundMember.getType()).isEqualTo(Type.USER);
+
     }
 }
