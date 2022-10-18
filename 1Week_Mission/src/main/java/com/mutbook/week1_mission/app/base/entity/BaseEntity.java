@@ -24,10 +24,13 @@ import static lombok.AccessLevel.PROTECTED;
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private Long id;
     @CreatedDate
+    @Column(name = "create_date")
     private LocalDateTime createDate;
     @LastModifiedDate
+    @Column(name = "modify_date")
     private LocalDateTime modifyDate;
 
     @Transient

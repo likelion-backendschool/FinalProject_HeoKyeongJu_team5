@@ -38,11 +38,4 @@ public class MemberController {
     public String showLogin() {
         return "member/login";
     }
-
-    @PreAuthorize("isAnonymous()")
-    @PostMapping("/login")
-    public String login(@Valid LoginDto loginDto) {
-        memberService.login(loginDto.getUsername(), loginDto.getPassword());
-        return "redirect:/" + Util.url.encode("회원가입이 완료되었습니다.");
-    }
 }

@@ -43,9 +43,5 @@ public class MemberService {
         return memberRepository.findByUsername(username);
     }
 
-    public void login(String username, String password) {
-        if(! memberRepository.findByUsername(username).isPresent()){
-            // 존재하지 않는 회원임
-        }
-    }
+
 }
