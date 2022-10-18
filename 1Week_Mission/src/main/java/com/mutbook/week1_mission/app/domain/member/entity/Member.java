@@ -4,33 +4,35 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mutbook.week1_mission.app.base.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @SuperBuilder
+@Table(name = "member")
 @ToString(callSuper = true, exclude = "password")
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, name = "username")
     private String username;
+    @Column(name = "password")
     @JsonIgnore
     private String password;
+    @Column(name = "nickname")
     private String nickname;
+    @Column(name = "email")
     private String email;
-    private int memberLevel = MemberLevel.DEFAULT;
-
+    @Column(name = "auth_level")
+    private int authLevel;
+    @Enumerated(STRING)
+    @Column(name = "type")
+    private Type type;
 }
