@@ -28,13 +28,24 @@ public class PostServiceTests {
     void test1() {
         Member author = memberService.findByUsername("user1").get();
 
-        Post post = postService.write("제목1","내용1","<html>내용1</html>", author);
+        Post post = postService.write("제목123","내용123","<html>내용123</html>", author);
 
         assertThat(post).isNotNull();
-        assertThat(post.getSubject()).isEqualTo("제목1");
-        assertThat(post.getContent()).isEqualTo("내용1");
-        assertThat(post.getContentHtml()).isEqualTo("<html>내용1</html>");
-        assertThat(post.getAuthorId()).isEqualTo(author.getId());
+        assertThat(post.getSubject()).isEqualTo("제목123");
+        assertThat(post.getContent()).isEqualTo("내용123");
+        assertThat(post.getContentHtml()).isEqualTo("<html>내용123</html>");
+        assertThat(post.getAuthor().getId()).isEqualTo(author.getId());
 
+    }
+
+    @Test
+    @DisplayName("글 수정")
+    void test2() {
+        Post post = postService.findById(1L).get();
+        postService.modify(post, "제목 new", "### 내용 new","<h3>내용 new</h3>");
+
+        assertThat(post).isNotNull();
+        assertThat(post.getSubject()).isEqualTo("제목 new");
+        assertThat(post.getContent()).isEqualTo("### 내용 new");
     }
 }
