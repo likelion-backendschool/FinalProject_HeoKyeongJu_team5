@@ -1,6 +1,7 @@
 package com.mutbook.week1_mission.app.domain.post.service;
 
 import com.mutbook.week1_mission.app.domain.member.entity.Member;
+import com.mutbook.week1_mission.app.domain.post.dto.PostDto;
 import com.mutbook.week1_mission.app.domain.post.entity.Post;
 import com.mutbook.week1_mission.app.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Tuple;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +44,10 @@ public class PostService {
 
     public boolean actorCanModify(Member author, Post post) {
         return author.getId().equals(post.getAuthor().getId());
+    }
+
+    public List<Post> findAll() {
+        List<Post> postList = postRepository.findAll().stream().toList();
+        return postList;
     }
 }

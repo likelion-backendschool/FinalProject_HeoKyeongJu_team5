@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,8 +29,8 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
-    public String showCreate() {
-        return "song/write";
+    public String showWrite() {
+        return "post/write";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -56,17 +57,36 @@ public class PostController {
         return "post/modify";
     }
 
-//    @PreAuthorize("isAuthenticated()")
-//    @PostMapping("/{id}/modify")
-//    public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid SongForm songForm, @PathVariable long id) {
-//        Song song = songService.findById(id).get();
-//        Member actor = memberContext.getMember();
-//
-//        if (songService.actorCanModify(actor, song) == false) {
-//            throw new ActorCanNotModifyException();
-//        }
-//
-//        songService.modify(song, songForm.getSubject(), songForm.getContent());
-//        return "redirect:/song/" + song.getId() + "?msg=" + Ut.url.encode("%d번 음원이 생성되었습니다.".formatted(song.getId()));
-//    }
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{id}/modify")
+    public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid PostDto postDto, @PathVariable long id) {
+        Post post = postService.findById(id).get();
+        Member actor = memberContext.getMember();
+
+        if (postService.actorCanModify(actor, post) == false) {
+            throw new ActorCanNotModifyException();
+        }
+
+        postService.modify(post, postDto.getSubject(), postDto.getContent(),postDto.getContentHtml());
+        return "redirect:/post/" + post.getId();
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/list")
+    public String showList(Model model) {
+        List<Post> postList = postService.findAll();
+        model.addAttribute("postList", postList);
+        return "post/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{id}")
+    public String detail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable Long id, Model model) {
+        Post post = postService.findById(id).get();
+
+        Member actor = memberContext.getMember();
+
+        model.addAttribute("post", post);
+
+        return "post/"+ post.getId();
+    }
 }
