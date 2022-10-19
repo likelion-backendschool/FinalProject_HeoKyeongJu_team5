@@ -27,6 +27,8 @@
 
     <!-- 테일윈드 -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+
 </head>
 
 <body class="min-h-screen flex flex-col pt-[35px]">
@@ -82,7 +84,7 @@
                 </span>
                 </a>
 
-                <a href="/post/create" class="inline-flex" sec:authorize="isAuthenticated()">
+                <a href="/post/write" class="inline-flex" sec:authorize="isAuthenticated()">
                     <i class="fa-solid fa-upload"></i>
                     <span class="ml-[2px] hidden sm:block">
                     글작성

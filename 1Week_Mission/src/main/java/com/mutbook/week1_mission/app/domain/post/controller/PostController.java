@@ -1,5 +1,6 @@
 package com.mutbook.week1_mission.app.domain.post.controller;
 
+import com.mutbook.week1_mission.util.Util;
 import com.mutbook.week1_mission.app.domain.member.entity.Member;
 import com.mutbook.week1_mission.app.domain.post.dto.PostDto;
 import com.mutbook.week1_mission.app.domain.post.entity.Post;
@@ -37,7 +38,8 @@ public class PostController {
     @PostMapping("/write")
     public String write(@AuthenticationPrincipal MemberContext memberContext, @Valid PostDto postDto) {
         Member author = memberContext.getMember();
-        Post post = postService.write(postDto.getSubject(), postDto.getContent(), postDto.getContentHtml(),author);
+        String contentHtml = Util.markdown(postDto.getContent());
+        Post post = postService.write(postDto.getSubject(), postDto.getContent(), contentHtml,author);
         return "redirect:/post/" + post.getId();
     }
 
@@ -62,12 +64,12 @@ public class PostController {
     public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid PostDto postDto, @PathVariable long id) {
         Post post = postService.findById(id).get();
         Member actor = memberContext.getMember();
-
+        String contentHtml = Util.markdown(postDto.getContent());
         if (postService.actorCanModify(actor, post) == false) {
             throw new ActorCanNotModifyException();
         }
 
-        postService.modify(post, postDto.getSubject(), postDto.getContent(),postDto.getContentHtml());
+        postService.modify(post, postDto.getSubject(), postDto.getContent(), contentHtml);
         return "redirect:/post/" + post.getId();
     }
     @PreAuthorize("isAuthenticated()")
@@ -87,6 +89,6 @@ public class PostController {
 
         model.addAttribute("post", post);
 
-        return "post/"+ post.getId();
+        return "post/detail";
     }
 }

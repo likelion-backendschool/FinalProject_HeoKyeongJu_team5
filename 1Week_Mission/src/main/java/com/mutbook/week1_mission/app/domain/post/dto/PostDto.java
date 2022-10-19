@@ -13,8 +13,5 @@ public class PostDto {
     private String subject;
     @NotNull
     private String content;
-    @NotNull
-    private String contentHtml;
-    @NotNull
-    private Member author;
+
 }
