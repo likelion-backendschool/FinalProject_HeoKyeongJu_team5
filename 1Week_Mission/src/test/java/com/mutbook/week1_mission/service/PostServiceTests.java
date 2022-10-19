@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -47,5 +49,19 @@ public class PostServiceTests {
         assertThat(post).isNotNull();
         assertThat(post.getSubject()).isEqualTo("제목 new");
         assertThat(post.getContent()).isEqualTo("### 내용 new");
+    }
+    @Test
+    @DisplayName("글 목록 가져오기")
+    void test3() {
+        List<Post> postList = postService.findAll();
+
+        assertThat(postList.size()).isEqualTo(3);
+    }
+    @Test
+    @DisplayName("특정 글 가져오기")
+    void test4() {
+        Post post = postService.findById(2L).get();
+        assertThat(post).isNotNull();
+        assertThat(post.getSubject()).isEqualTo("제목 2");
     }
 }
