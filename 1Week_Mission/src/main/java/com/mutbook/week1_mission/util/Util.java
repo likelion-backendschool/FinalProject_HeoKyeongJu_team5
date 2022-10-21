@@ -13,6 +13,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Component;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -84,7 +85,6 @@ public class Util {
             return headers;
         }
     }
-
     public static class url {
         public static boolean isUrl(String url) {
             if (url == null) return false;
@@ -96,7 +96,11 @@ public class Util {
                 url += "?";
             }
 
-            url += paramName + "=" + encode(paramValue);
+            if (url.endsWith("?") == false && url.endsWith("&") == false) {
+                url += "&";
+            }
+
+            url += paramName + "=" + paramValue;
 
             return url;
         }
@@ -130,14 +134,25 @@ public class Util {
                 return str;
             }
         }
-    }
 
-    public static String markdown(String markdown) {
-        Parser parser = Parser.builder().build();
-        Node document = parser.parse(markdown);
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(document);
-    }
+        public static String getQueryParamValue(String url, String paramName, String defaultValue) {
+            String[] urlBits = url.split("\\?", 2);
 
+            if (urlBits.length == 1) {
+                return defaultValue;
+            }
+
+            urlBits = urlBits[1].split("&");
+
+            String param = Arrays.stream(urlBits)
+                    .filter(s -> s.startsWith(paramName + "="))
+                    .findAny()
+                    .orElse(paramName + "=" + defaultValue);
+
+            String value = param.split("=", 2)[1].trim();
+
+            return value.length() > 0 ? value : defaultValue;
+        }
+    }
 }
 
