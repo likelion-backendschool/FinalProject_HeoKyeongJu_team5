@@ -1,7 +1,6 @@
 package com.mutbook.week1_mission.app.domain.post.entity;
 
 import com.mutbook.week1_mission.app.base.entity.BaseEntity;
-import com.mutbook.week1_mission.app.domain.hashTag.entity.HashTag;
 import com.mutbook.week1_mission.app.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +30,7 @@ public class Post extends BaseEntity {
     private String content;
     @Column(name = "content_html")
     private String contentHtml;
-    @ManyToMany
-    @Column(name = "post_hash_tag")
-    private Set<HashTag> hashTag;
+//    @ManyToMany
+//    @Column(name = "post_hash_tag")
+//    private Set<HashTag> hashTag;
 }

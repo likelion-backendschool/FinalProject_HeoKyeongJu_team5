@@ -38,8 +38,7 @@ public class PostController {
     @PostMapping("/write")
     public String write(@AuthenticationPrincipal MemberContext memberContext, @Valid PostDto postDto) {
         Member author = memberContext.getMember();
-        String contentHtml = Util.markdown(postDto.getContent());
-        Post post = postService.write(postDto.getSubject(), postDto.getContent(), contentHtml,author);
+        Post post = postService.write(postDto.getSubject(), postDto.getContent(), postDto.getContentHtml(),author);
         return "redirect:/post/" + post.getId();
     }
 
@@ -64,12 +63,11 @@ public class PostController {
     public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid PostDto postDto, @PathVariable long id) {
         Post post = postService.findById(id).get();
         Member actor = memberContext.getMember();
-        String contentHtml = Util.markdown(postDto.getContent());
         if (postService.actorCanModify(actor, post) == false) {
             throw new ActorCanNotModifyException();
         }
 
-        postService.modify(post, postDto.getSubject(), postDto.getContent(), contentHtml);
+        postService.modify(post, postDto.getSubject(), postDto.getContent(), postDto.getContentHtml());
         return "redirect:/post/" + post.getId();
     }
     @PreAuthorize("isAuthenticated()")
