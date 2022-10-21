@@ -1,9 +1,11 @@
 package com.mutbook.week1_mission.app.domain.member.service;
 
+import com.mutbook.week1_mission.app.domain.mail.service.EmailService;
 import com.mutbook.week1_mission.app.domain.member.entity.AuthLevel;
 import com.mutbook.week1_mission.app.domain.member.entity.Member;
 import com.mutbook.week1_mission.app.domain.member.entity.Type;
 import com.mutbook.week1_mission.app.domain.member.exception.AlreadyExistException;
+import com.mutbook.week1_mission.app.domain.member.exception.NotExistUserException;
 import com.mutbook.week1_mission.app.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +21,15 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+
+    public Optional<Member> findByEmail(String email){
+        if(memberRepository.findByEmail(email).isPresent()){
+            return memberRepository.findByEmail(email);
+        } else {
+            throw new NotExistUserException();
+        }
+    }
 
     public Member join(String username, String password, String email){
         if (memberRepository.findByUsername(username).isPresent()) {
@@ -35,9 +46,12 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
-
+        //emailService.sendJoinMail(member);
         return member;
     }
+
+
+
     @Transactional(readOnly = true)
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
