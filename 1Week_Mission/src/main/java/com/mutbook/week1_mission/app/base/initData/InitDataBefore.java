@@ -9,6 +9,8 @@ public interface InitDataBefore {
     default void before(MemberService memberService, PostService postService) {
         Member member1 = memberService.join("user1", "1234", "user1@test.com");
         Member member2 = memberService.join("user2", "1234", "user2@test.com");
+        Member emailMember = memberService.join("허경주", "1234", "beewt@naver.com");
+
 
         Post post1 = postService.write("제목 1", "내용 1", "<html>내용 1</html>", member1);
         Post post2 = postService.write("제목 2", "내용 2", "<html>내용 2</html>", member1);
