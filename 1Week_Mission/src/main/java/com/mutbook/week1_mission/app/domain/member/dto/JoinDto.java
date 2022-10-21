@@ -13,5 +13,7 @@ public class JoinDto {
     @NotNull
     private String password;
     @NotNull
+    private String rePassword;
+    @NotNull
     private String email;
 }

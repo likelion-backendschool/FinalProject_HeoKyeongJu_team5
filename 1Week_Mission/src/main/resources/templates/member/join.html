@@ -2,7 +2,7 @@
 <html layout:decorate="~{/layout/layout.html}">
 
   <head>
-   <title>회원가입</title>
+    <title>회원가입</title>
   </head>
 
   <body>
@@ -38,6 +38,20 @@
               return;
             }
 
+            form.rePassword.value = form.rePassword.value.trim();
+
+            if (form.password.value.length == 0) {
+              warningModal("비밀번호 확인을 입력해주세요.");
+              form.rePassword.focus();
+              return;
+            }
+            if(form.rePassword.value != form.password.value){
+              warningModal("비밀번호가 일치하지 않습니다.")
+              form.rePassword.focus();
+              return;
+            }
+
+
             form.email.value = form.email.value.trim();
 
             if (form.email.value.length == 0) {
@@ -69,6 +83,8 @@
           </label>
           <input type="password" name="password"
                  placeholder="비밀번호" class="input input-bordered" maxlength="50">
+          <input type="rePassword" name="rePassword"
+                 placeholder="비밀번호 확인" class="input input-bordered mt-3" maxlength="50">
         </div>
 
         <div class="form-control">
