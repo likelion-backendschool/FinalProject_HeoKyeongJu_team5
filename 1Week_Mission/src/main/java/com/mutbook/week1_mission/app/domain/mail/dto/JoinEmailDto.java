@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JoinMailDto {
+public class JoinEmailDto {
     @NotNull
     private String address;
     @NotNull

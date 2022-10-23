@@ -1,4 +1,4 @@
-package com.mutbook.week1_mission.app.home.controller;
+package com.mutbook.week1_mission.app.domain.home.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @ToString(callSuper = true)
 @Table(name = "Mail")
-public class Mail extends BaseEntity {
+public class Email extends BaseEntity {
     @Column(name = "address")
     private String address;
     @Column(name = "subject")

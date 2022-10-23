@@ -1,5 +1,6 @@
 package com.mutbook.week1_mission.app.domain.member.controller;
 
+import com.mutbook.week1_mission.app.base.dto.RsData;
 import com.mutbook.week1_mission.app.base.rq.Rq;
 import com.mutbook.week1_mission.app.domain.member.dto.JoinDto;
 import com.mutbook.week1_mission.app.domain.member.entity.Member;
@@ -22,9 +23,9 @@ public class MemberController {
     private final MemberService memberService;
     private final Rq rq;
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/")
+    @GetMapping("/profile")
     public String showMemberInfo(){
-        return "member/detail";
+        return "member/profile";
     }
 
     @PreAuthorize("isAnonymous()")
@@ -60,5 +61,24 @@ public class MemberController {
             return rq.historyBack("일치하는 회원이 존재하지 않습니다.");
         }
         return Rq.redirectWithMsg("/member/login?username=%s&".formatted(member.getUsername()), "해당 이메일로 가입한 계정의 아이디는 '%s' 입니다.".formatted(member.getUsername()));
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/beAuthor")
+    public String showBeAuthor() {
+        return "member/beAuthor";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/beAuthor")
+    public String beAuthor(String nickname) {
+        Member member = rq.getMember();
+
+        RsData rsData = memberService.beAuthor(member, nickname);
+
+        if (rsData.isFail()) {
+            return Rq.redirectWithMsg("/member/beAuthor", rsData);
+        }
+
+        return Rq.redirectWithMsg("/", rsData);
     }
 }

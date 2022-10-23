@@ -1,10 +1,10 @@
 package com.mutbook.week1_mission.app.domain.post.controller;
 
-import com.mutbook.week1_mission.util.Util;
+import com.mutbook.week1_mission.app.base.rq.Rq;
 import com.mutbook.week1_mission.app.domain.member.entity.Member;
 import com.mutbook.week1_mission.app.domain.post.dto.PostDto;
 import com.mutbook.week1_mission.app.domain.post.entity.Post;
-import com.mutbook.week1_mission.app.domain.post.exception.ActorCanNotModifyException;
+import com.mutbook.week1_mission.app.base.exception.ActorCanNotModifyException;
 import com.mutbook.week1_mission.app.domain.post.service.PostService;
 import com.mutbook.week1_mission.app.security.dto.MemberContext;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,7 @@ import java.util.List;
 @Slf4j
 public class PostController {
     private final PostService postService;
+    private final Rq rq;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
@@ -70,13 +71,13 @@ public class PostController {
         postService.modify(post, postDto.getSubject(), postDto.getContent(), postDto.getContentHtml());
         return "redirect:/post/" + post.getId();
     }
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/list")
-    public String showList(Model model) {
-        List<Post> postList = postService.findAll();
-        model.addAttribute("postList", postList);
-        return "post/list";
-    }
+//    @PreAuthorize("isAuthenticated()")
+//    @GetMapping("/list")
+//    public String showList(Model model) {
+//        List<Post> postList = postService.findAll();
+//        model.addAttribute("postList", postList);
+//        return "post/list";
+//    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
@@ -88,5 +89,14 @@ public class PostController {
         model.addAttribute("post", post);
 
         return "post/detail";
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<Post> posts = postService.findAllForPrintByAuthorIdOrderByIdDesc(rq.getId());
+
+        model.addAttribute("posts", posts);
+
+        return "post/list";
     }
 }

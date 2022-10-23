@@ -7,26 +7,46 @@
 
 <body>
 <main layout:fragment="main">
-    <section class="section section-write container mx-auto">
-
-        <div class="px-2 pt-4">
-            <h1 class="font-bold text-lg">글 상세</h1>
-
-            <div class="flex flex-col gap-3 mt-3">
-                <div>
-                    <div class="badge badge-primary">제목</div>
-
-                    <div th:text="${post.subject}"></div>
-                </div>
-
-                <div>
-                    <div class="badge badge-primary">내용</div>
-                    <div class="card-text" th:utext="${@util.markdown(post.contentHtml)}"></div>
+    <section class="section container mx-auto" style="width:60vw">
+        <div class="flex flex-col w-800 mt-10" style="font-size: large">
+            <div class="grid h-15 card rounded-box w-500">
+                <label class="label">
+                    제목 :
+                    <div th:text="${post.subject}" style="font-size: large"></div>
+                </label>
+            </div>
+            <hr class="my-2" style="color: darkgray"/>
+            작성자 :
+            <div class="grid h-15 card rounded-box w-500" th:text="${post.author.nickname}"></div>
+            <hr class="my-2" style="color: darkgray"/>
+            태그 :
+            <hr class="my-2" style="color: darkgray"/>
+            <div class="toast-ui-viewer">
+                <div class="toastui-editor-contents" style="overflow-wrap: break-word; "
+                     th:utext="${post.getForPrintContentHtml()}">
                 </div>
             </div>
         </div>
-    </section>
+        <div class="grid grid-cols-2 mt-10 gap-2">
+            <a th:if="${@postService.actorCanModify(@rq.member, post)}"
+               th:href="@{|/post/${post.id}/modify|}"
+               class="btn">
+                <span class="ml-1">수정</span>
+            </a>
+            <a th:if="${@postService.actorCanRemove(@rq.member, post)}" href="javascript:;"
+               onclick="if ( confirm('정말로 삭제하시겠습니까?') ) $(this).next().submit();"
+               class="btn btn-secondary btn-sm btn-outline">
+                <i class="fa-solid fa-trash"></i>
+                <span class="ml-1">삭제</span>
+            </a>
+            <form th:action="@{|/post/${post.id}/remove|}" method="POST" hidden></form>
 
+            <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm  btn-outline">
+                <i class="fa-solid fa-angle-left"></i>
+                <span class="ml-1">이전</span>
+            </button>
+        </div>
+    </section>
 </main>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.mutbook.week1_mission.app.domain.post.exception;
+package com.mutbook.week1_mission.app.base.exception;
 
 public class ActorCanNotModifyException extends RuntimeException {
 }
