@@ -21,11 +21,10 @@
                 </div>
 
                 <div class="flex">
-                    <svg width="20" height="20" th:data-jdenticon-value="${product.author.jdenticon}"></svg>
-                    <div th:text="${product.author.name}"></div>
+                    <div th:text="${product.author.nickname}"></div>
                 </div>
 
-                <div th:text="|￦ ${@ut.nf(product.salePrice)}|"></div>
+                <div th:text="|￦ ${product.salePrice }|"></div>
 
                 <div class="flex flex-wrap gap-3">
                     <div class="flex flex-wrap gap-3">
@@ -71,10 +70,6 @@
                         <i class="fa-solid fa-angle-left"></i>
                         <span class="ml-1">이전</span>
                     </button>
-                </div>
-
-                <div class="flex justify-center">
-                    <svg width="200" height="200" th:data-jdenticon-value="${product.jdenticon}"></svg>
                 </div>
 
                 <div>

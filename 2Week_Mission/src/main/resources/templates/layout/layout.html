@@ -66,12 +66,6 @@
                 </span>
             </a>
 
-            <a href="/post/write" class="inline-flex" sec:authorize="isAuthenticated()">
-                    <span class="ml-[2px] hidden sm:block">
-                    글작성
-                    </span>
-            </a>
-
             <form name="logoutForm" th:action="@{/member/logout}" method="post" hidden></form>
             <a href="/member/profile" class="inline-flex" sec:authorize="isAuthenticated()">
                     <span class="ml-[2px] hidden sm:block">
@@ -94,6 +88,12 @@
                     <span class="ml-[2px] hidden sm:block">
                     로그아웃
                 </span>
+            </a>
+
+            <a href="/cart/list" class="inline-flex" sec:authorize="isAuthenticated()">
+                    <span class="ml-[2px] hidden sm:block">
+                    장바구니
+                    </span>
             </a>
         </div>
     </div>

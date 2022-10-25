@@ -14,7 +14,9 @@
                 <i class="fa-solid fa-book"></i>
                 도서 목록
             </h1>
-
+            <a href="/product/create" class="btn btn-sm" style="background-color: #ff8c00; border: 0px;>
+                    <span class="ml-1>책 생성</span>
+            </a>
             <div class="mt-2">
                 <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
                     <li th:each="product : ${products}">

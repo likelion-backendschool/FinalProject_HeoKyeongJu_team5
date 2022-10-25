@@ -14,7 +14,9 @@
                 <i class="fa-solid fa-rectangle-list"></i>
                 글 목록
             </h1>
-
+            <a href="/post/write" class="btn btn-sm" style="background-color: #ff8c00; border: 0px;>
+                    <span class="ml-1>글작성</span>
+            </a>
             <div class="mt-2">
                 <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
                     <li th:each="post : ${posts}">
