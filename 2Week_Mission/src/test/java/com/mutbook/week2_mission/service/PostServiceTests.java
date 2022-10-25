@@ -30,7 +30,7 @@ public class PostServiceTests {
     void test1() {
         Member author = memberService.findByUsername("user1").get();
 
-        Post post = postService.write("제목123","내용123","<html>내용123</html>", author);
+        Post post = postService.write("제목123","내용123","<html>내용123</html>", author,"#html");
 
         assertThat(post).isNotNull();
         assertThat(post.getSubject()).isEqualTo("제목123");
@@ -44,7 +44,7 @@ public class PostServiceTests {
     @DisplayName("글 수정")
     void test2() {
         Post post = postService.findById(1L).get();
-        postService.modify(post, "제목 new", "### 내용 new","<h3>내용 new</h3>");
+        postService.modify(post, "제목 new", "### 내용 new","<h3>내용 new</h3>","#html");
 
         assertThat(post).isNotNull();
         assertThat(post.getSubject()).isEqualTo("제목 new");

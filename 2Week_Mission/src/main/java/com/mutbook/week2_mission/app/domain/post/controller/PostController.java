@@ -6,6 +6,7 @@ import com.mutbook.week2_mission.app.domain.post.dto.PostDto;
 import com.mutbook.week2_mission.app.domain.post.entity.Post;
 import com.mutbook.week2_mission.app.base.exception.ActorCanNotModifyException;
 import com.mutbook.week2_mission.app.domain.post.service.PostService;
+import com.mutbook.week2_mission.app.domain.postTag.entity.PostTag;
 import com.mutbook.week2_mission.app.security.dto.MemberContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class PostController {
     @PostMapping("/write")
     public String write(@AuthenticationPrincipal MemberContext memberContext, @Valid PostDto postDto) {
         Member author = memberContext.getMember();
-        Post post = postService.write(postDto.getSubject(), postDto.getContent(), postDto.getContentHtml(),author);
+        Post post = postService.write(postDto.getSubject(), postDto.getContent(), postDto.getContentHtml(),author, postDto.getPostTagContents());
         return "redirect:/post/" + post.getId();
     }
 
@@ -68,7 +69,7 @@ public class PostController {
             throw new ActorCanNotModifyException();
         }
 
-        postService.modify(post, postDto.getSubject(), postDto.getContent(), postDto.getContentHtml());
+        postService.modify(post, postDto.getSubject(), postDto.getContent(), postDto.getContentHtml(),postDto.getPostTagContents());
         return "redirect:/post/" + post.getId();
     }
 //    @PreAuthorize("isAuthenticated()")

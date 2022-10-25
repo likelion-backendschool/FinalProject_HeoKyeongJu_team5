@@ -24,9 +24,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostTagService postTagService;
 
-
     @Transactional
-    public Post write(String subject, String content, String contentHtml, Member author) {
+    public Post write(String subject, String content, String contentHtml, Member author, String postTagContents) {
         Post post = Post.builder()
                 .subject(subject)
                 .content(content)
@@ -34,15 +33,16 @@ public class PostService {
                 .author(author)
                 .build();
         postRepository.save(post);
+        applyPostTags(post, postTagContents);
 
         return post;
     }
     @Transactional
-    public void modify(Post post, String subject, String content, String contentHtml) {
+    public void modify(Post post, String subject, String content, String contentHtml, String postTagContents) {
         post.setSubject(subject);
         post.setContent(content);
         post.setContentHtml(contentHtml);
-
+        applyPostTags(post, postTagContents);
     }
     @Transactional(readOnly = true)
     public Optional<Post> findById(Long id) {
@@ -58,6 +58,13 @@ public class PostService {
     public List<Post> findAll() {
         List<Post> postList = postRepository.findAll().stream().toList();
         return postList;
+    }
+    public void applyPostTags(Post post, String postTagContents) {
+        postTagService.applyPostTags(post, postTagContents);
+    }
+
+    public List<PostTag> getPostTags(Post post) {
+        return postTagService.getPostTags(post);
     }
     public void loadForPrintData(List<Post> posts) {
         long[] ids = posts
@@ -85,5 +92,11 @@ public class PostService {
         loadForPrintData(posts);
 
         return posts;
+    }
+    public boolean actorCanSee(Member actor, Post post) {
+        if ( actor == null ) return false;
+        if ( post == null ) return false;
+
+        return post.getAuthor().getId().equals(actor.getId());
     }
 }
