@@ -33,4 +33,12 @@ public class CartController {
         return "cart/list";
     }
 
+    @PostMapping("/add/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String  addCartItem(@PathVariable Long id, @AuthenticationPrincipal MemberContext memberContext){
+        Product product = productService.findById(id).get();
+        cartService.addItem(memberContext.getMember(), product);
+        return "redirect:/cart/list";
+    }
+
 }

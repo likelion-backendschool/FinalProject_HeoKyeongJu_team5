@@ -19,5 +19,21 @@ public class CartService {
     public List<CartItem> getItemsByMember(Member member) {
         return cartItemRepository.findAllByMemberId(member.getId());
     }
+    public CartItem addItem(Member member, Product product) {
+        CartItem exCartItem = cartItemRepository.findByMemberIdAndProductId(member.getId(), product.getId()).orElse(null);
 
+        if ( exCartItem != null ) {
+            // 이미 장바구니에 담겨있음.
+            return exCartItem;
+        }
+
+        CartItem cartItem = CartItem.builder()
+                .member(member)
+                .product(product)
+                .build();
+
+        cartItemRepository.save(cartItem);
+
+        return cartItem;
+    }
 }
