@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/html">
+
+<body>
+<th:block th:fragment="cartListItem">
+  <div class="card shadow-xl" style="background-color: #fffefa">
+    <a th:href="@{|/cart/${item.id}|}" class="block" >
+      <figure>
+      </figure>
+    </a>
+    <div class="card-body">
+      <h2 class="card-title flex flex-wrap">
+        <a th:href="@{|/cart/${item.id}|}" class="mr-auto">
+          <div style="">
+            <div><span th:text="${item.product.subject}"></span></div>
+            <div>가격 : <span th:text="${item.product.price}"></span></div>
+          </div>
+
+        </a>
+      </h2>
+
+    </div>
+  </div>
+</th:block>
+</body>
+
+</html>

@@ -26,5 +26,5 @@ public class CartItem extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     private Member member;
     @ManyToOne(fetch = LAZY)
-    Product product;
+현    private Product product;
 }
