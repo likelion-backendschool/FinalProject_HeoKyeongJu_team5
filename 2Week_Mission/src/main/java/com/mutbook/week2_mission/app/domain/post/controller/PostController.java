@@ -72,13 +72,6 @@ public class PostController {
         postService.modify(post, postDto.getSubject(), postDto.getContent(), postDto.getContentHtml(),postDto.getPostTagContents());
         return "redirect:/post/" + post.getId();
     }
-//    @PreAuthorize("isAuthenticated()")
-//    @GetMapping("/list")
-//    public String showList(Model model) {
-//        List<Post> postList = postService.findAll();
-//        model.addAttribute("postList", postList);
-//        return "post/list";
-//    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")

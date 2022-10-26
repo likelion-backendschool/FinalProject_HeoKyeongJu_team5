@@ -1,5 +1,6 @@
 package com.mutbook.week2_mission.app.domain.order.controller;
 
+import com.mutbook.week2_mission.app.base.rq.Rq;
 import com.mutbook.week2_mission.app.domain.member.entity.Member;
 import com.mutbook.week2_mission.app.domain.member.service.MemberService;
 import com.mutbook.week2_mission.app.domain.order.entity.Order;
@@ -24,6 +25,7 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
+    private final Rq rq;
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
@@ -53,9 +55,8 @@ public class OrderController {
     }
     @GetMapping("/list")
     @PreAuthorize("isAuthenticated()")
-    public String showOrderList(@AuthenticationPrincipal MemberContext memberContext, Model model){
-        Member member = memberContext.getMember();
-        List<Order> orders = orderService.findAllByBuyerId(member.getId());
+    public String showOrderList(Model model){
+        List<Order> orders = orderService.findAllByBuyerId(rq.getId());
         model.addAttribute("orders", orders);
 
         return "/order/list";
