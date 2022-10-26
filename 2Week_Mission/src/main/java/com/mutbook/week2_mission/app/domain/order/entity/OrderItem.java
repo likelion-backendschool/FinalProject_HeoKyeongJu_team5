@@ -43,5 +43,6 @@ public class OrderItem extends BaseEntity {
         this.price = product.getPrice();
         this.salePrice = product.getSalePrice();
         this.wholesalePrice = product.getWholesalePrice();
+        this.payPrice = product.getSalePrice();
     }
 }

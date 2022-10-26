@@ -31,6 +31,7 @@ public class Order extends BaseEntity {
     private boolean isPaid; // 결제 여부
     private boolean isCanceled; // 취소 여부
     private boolean isRefunded; // 환불 여부
+    private Long payPrice; // 결제 예정 금액
 
     @Builder.Default
     @OneToMany(mappedBy = "order", cascade = ALL, orphanRemoval = true)
@@ -39,5 +40,22 @@ public class Order extends BaseEntity {
     public void addOrderItem(OrderItem orderItem) {
         orderItem.setOrder(this);
         orderItems.add(orderItem);
+    }
+    public void makeName() {
+        String name = orderItems.get(0).getProduct().getSubject();
+
+        if (orderItems.size() > 1) {
+            name += " 외 %d권".formatted(orderItems.size() - 1);
+        }
+
+        this.name = name;
+    }
+    public void calcPayPrice() {
+        Long payPrice = 0L;
+        for (OrderItem orderItem : orderItems) {
+            payPrice += orderItem.getPayPrice();
+        }
+
+        this.payPrice = payPrice;
     }
 }

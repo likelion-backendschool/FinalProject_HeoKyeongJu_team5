@@ -7,6 +7,7 @@ import com.mutbook.week2_mission.app.domain.member.entity.Member;
 import com.mutbook.week2_mission.app.domain.member.service.MemberService;
 import com.mutbook.week2_mission.app.domain.order.entity.Order;
 import com.mutbook.week2_mission.app.domain.order.entity.OrderItem;
+import com.mutbook.week2_mission.app.domain.order.entity.ReadyStatus;
 import com.mutbook.week2_mission.app.domain.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
@@ -43,11 +44,14 @@ public class OrderService {
         Order order = Order
                 .builder()
                 .buyer(member)
+                .readyStatus(ReadyStatus.READY_STATUS)
                 .build();
 
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
+        order.makeName();
+        order.calcPayPrice();
 
         orderRepository.save(order);
 
