@@ -1,5 +1,6 @@
 package com.mutbook.week2_mission.app.domain.order.service;
 
+import com.mutbook.week2_mission.app.attr.service.AttrService;
 import com.mutbook.week2_mission.app.domain.cart.entity.CartItem;
 import com.mutbook.week2_mission.app.domain.cart.service.CartService;
 import com.mutbook.week2_mission.app.domain.member.entity.Member;
@@ -8,11 +9,13 @@ import com.mutbook.week2_mission.app.domain.order.entity.Order;
 import com.mutbook.week2_mission.app.domain.order.entity.OrderItem;
 import com.mutbook.week2_mission.app.domain.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +52,17 @@ public class OrderService {
         orderRepository.save(order);
 
         return order;
+    }
+
+    public Optional<Order> findById(long id) {
+        return orderRepository.findById(id);
+    }
+
+    public boolean actorCanSee(Member actor, Order order) {
+        return actor.getId().equals(order.getBuyer().getId());
+    }
+
+    public List<Order> findAllByBuyerId(Long id){
+        return orderRepository.findAllByBuyerId(id);
     }
 }

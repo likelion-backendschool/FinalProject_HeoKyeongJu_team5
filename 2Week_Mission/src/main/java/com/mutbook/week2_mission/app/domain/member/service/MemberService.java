@@ -87,4 +87,9 @@ public class MemberService {
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
     }
+
+    public Long getCash(Member member) {
+        Member foundMember = findByUsername(member.getUsername()).get();
+        return foundMember.getCash();
+    }
 }
