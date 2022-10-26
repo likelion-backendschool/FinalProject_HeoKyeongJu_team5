@@ -3,6 +3,7 @@ package com.mutbook.week2_mission.app.domain.cart.controller;
 import com.mutbook.week2_mission.app.base.rq.Rq;
 import com.mutbook.week2_mission.app.domain.cart.entity.CartItem;
 import com.mutbook.week2_mission.app.domain.cart.service.CartService;
+import com.mutbook.week2_mission.app.domain.member.entity.Member;
 import com.mutbook.week2_mission.app.domain.product.entity.Product;
 import com.mutbook.week2_mission.app.domain.product.service.ProductService;
 import com.mutbook.week2_mission.app.security.dto.MemberContext;
@@ -41,4 +42,14 @@ public class CartController {
         return "redirect:/cart/list";
     }
 
+    @PostMapping("/remove/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String removeCartItem(@PathVariable Long id, @AuthenticationPrincipal MemberContext memberContext){
+        Member buyer = memberContext.getMember();
+        CartItem cartItem = cartService.findItemById(id).orElse(null);
+        if (cartService.actorCanDelete(buyer, cartItem)) {
+            cartService.removeItem(cartItem);
+        }
+        return "redirect:/cart/list";
+    }
 }
