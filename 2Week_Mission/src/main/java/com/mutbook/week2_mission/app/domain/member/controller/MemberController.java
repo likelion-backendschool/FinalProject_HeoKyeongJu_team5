@@ -37,7 +37,7 @@ public class MemberController {
     @PreAuthorize("isAnonymous()")
     @PostMapping("/join")
     public String join(@Valid JoinDto joinDto) {
-        memberService.join(joinDto.getUsername(), joinDto.getPassword(), joinDto.getEmail());
+        memberService.join(joinDto.getUsername(), joinDto.getPassword(), joinDto.getEmail(),null);
 
         return "redirect:/member/login?msg=" + Util.url.encode("회원가입이 완료되었습니다.");
     }

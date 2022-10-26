@@ -37,9 +37,11 @@ public class Member extends BaseEntity {
     private String email;
     @Column(name = "auth_level")
     private int authLevel;
+    @Column(name ="cash")
+    private Long cash;
     @Enumerated(STRING)
-    @Column(name = "type")
-    private Type type;
+//    @Column(name = "type")
+//    private Type type;
 
     public List<GrantedAuthority> genAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

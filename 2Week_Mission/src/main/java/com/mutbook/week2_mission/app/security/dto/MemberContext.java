@@ -1,18 +1,13 @@
 package com.mutbook.week2_mission.app.security.dto;
 
-
 import com.mutbook.week2_mission.app.domain.member.entity.Member;
 import com.mutbook.week2_mission.app.domain.member.entity.Type;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static javax.persistence.EnumType.STRING;
 
 
 @Getter
@@ -33,7 +28,7 @@ public class MemberContext extends User {
         this.username = member.getUsername();
         this.email = member.getEmail();
         this.authLevel = member.getAuthLevel();
-        this.type = member.getType();
+        //this.type = member.getType();
     }
 
     public Member getMember() {
@@ -45,7 +40,7 @@ public class MemberContext extends User {
                 .username(username)
                 .email(email)
                 .authLevel(authLevel)
-                .type(type)
+                //.type(type)
                 .build();
     }
 

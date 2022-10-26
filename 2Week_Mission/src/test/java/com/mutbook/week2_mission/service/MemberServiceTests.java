@@ -27,8 +27,9 @@ public class MemberServiceTests {
         String username = "testUser1";
         String password = "test1234";
         String email = "testUser1@test.com";
+        String nickname = "닉넴1";
 
-        memberService.join(username, password, email);
+        memberService.join(username, password, email,nickname);
 
         Member foundMember = memberService.findByUsername("testUser1").get();
 

@@ -31,7 +31,7 @@ public class MemberService {
             return memberRepository.findByEmail(email);
     }
 
-    public Member join(String username, String password, String email){
+    public Member join(String username, String password, String email, String nickname){
         if (memberRepository.findByUsername(username).isPresent()) {
             throw new AlreadyExistException();
         }
@@ -41,10 +41,11 @@ public class MemberService {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .email(email)
+                .nickname(nickname)
                 .authLevel(AuthLevel.ROLE_DEFAULT)
-                .type(Type.USER)
                 .build();
 
+        member.genAuthorities();
         memberRepository.save(member);
         //emailService.sendJoinMail(member);
         return member;
