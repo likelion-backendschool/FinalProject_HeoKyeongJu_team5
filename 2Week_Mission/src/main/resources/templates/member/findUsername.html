@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layout/layout.html}">
+
+<head>
+    <title> 아이디 찾기 </title>
+</head>
+
+<body>
+<main layout:fragment="main">
+    <section class="section section-join flex-grow flex flex-col items-center justify-center">
+        <div class="max-w-md w-full px-2 pt-4">
+            <h1 class="font-bold text-lg"> 아이디 찾기 </h1>
+            <!-- email 입력 폼 / 전송 버튼  -->
+            <script>
+                let UsernameFind__submitDone = false;
+
+                function UsernameFind__submit(form) {
+                    if (UsernameFind__submitDone) {
+                        return;
+                    }
+                    form.email.value = form.email.value.trim();
+                    if (form.email.value.length == 0) {
+                        warningModal("이메일을 입력해주세요.");
+                        form.email.focus();
+
+                        return;
+                    }
+
+                    form.submit();
+                    UsernameFind__submitDone = true;
+                }
+            </script>
+
+            <form th:action method="POST" class="flex flex-col gap-3"
+                  onsubmit="UsernameFind__submit(this); return false;">
+                <div class="form-control mt-10">
+                    <label class="label">
+                        <span class="label-text">이메일</span>
+                    </label>
+                    <input autofocus type="email" name="email" placeholder="이메일" class="input input-bordered"
+                           maxlength="50">
+                </div>
+
+                <div class="grid grid-cols-2 mt-2 gap-2">
+                    <a href="/member/findPassword" class="btn btn-secondary" style="background-color: gold; border-color: gold">비밀번호 찾기</a>
+                    <input class="btn btn-primary" type="submit" style="background-color: #ff8c00; border-color: #ff8c00" value="아이디찾기">
+                </div>
+
+                <div class="flex justify-center">
+                    <a href="/member/login" class="btn btn-link" style="color: darkgray">로그인</a>
+                    <a href="/member/join" class="btn btn-link" style="color: darkgray">회원가입</a>
+                </div>
+            </form>
+        </div>
+
+    </section>
+
+</main>
+</body>
+</html>
