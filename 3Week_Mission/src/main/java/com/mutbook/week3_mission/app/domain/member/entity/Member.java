@@ -35,8 +35,10 @@ public class Member extends BaseEntity {
     private String nickname;
     @Column(unique = true, name = "email")
     private String email;
+    @Convert(converter = AuthLevel.Converter.class)
     @Column(name = "auth_level")
-    private int authLevel;
+    private AuthLevel authLevel;
+
     @Column(name ="cash")
     private long cash;
     @Enumerated(STRING)

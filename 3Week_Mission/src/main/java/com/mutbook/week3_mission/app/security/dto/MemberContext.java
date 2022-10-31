@@ -1,5 +1,6 @@
 package com.mutbook.week3_mission.app.security.dto;
 
+import com.mutbook.week3_mission.app.domain.member.entity.AuthLevel;
 import com.mutbook.week3_mission.app.domain.member.entity.Member;
 import com.mutbook.week3_mission.app.domain.member.entity.Type;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class MemberContext extends User {
     private final LocalDateTime modifyDate;
     private final String username;
     private final String email;
-    private int authLevel;
+    private AuthLevel authLevel;
     private Type type;
 
     public MemberContext(Member member, List<GrantedAuthority> authorities) {

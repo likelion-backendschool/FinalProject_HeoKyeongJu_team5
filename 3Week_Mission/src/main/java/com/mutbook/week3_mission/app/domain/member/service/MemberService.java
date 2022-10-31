@@ -47,7 +47,7 @@ public class MemberService {
                 .password(passwordEncoder.encode(password))
                 .email(email)
                 .nickname(nickname)
-                .authLevel(AuthLevel.ROLE_DEFAULT)
+                .authLevel(AuthLevel.NORMAL)
                 .build();
 
         member.genAuthorities();

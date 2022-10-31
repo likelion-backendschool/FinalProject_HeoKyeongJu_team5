@@ -1,17 +1,20 @@
 package com.mutbook.week3_mission.app.base.initData;
 
+import com.mutbook.week3_mission.app.domain.member.entity.AuthLevel;
 import com.mutbook.week3_mission.app.domain.member.entity.Member;
+import com.mutbook.week3_mission.app.domain.member.repository.MemberRepository;
 import com.mutbook.week3_mission.app.domain.member.service.MemberService;
 import com.mutbook.week3_mission.app.domain.post.service.PostService;
 import com.mutbook.week3_mission.app.domain.product.entity.Product;
 import com.mutbook.week3_mission.app.domain.product.service.ProductService;
 
 public interface InitDataBefore {
-    default void before(MemberService memberService, PostService postService, ProductService productService) {
+    default void before(MemberService memberService, PostService postService, ProductService productService, MemberRepository memberRepository) {
         Member member1 = memberService.join("user1", "1234", "user1@test.com","꿀벌");
         Member member2 = memberService.join("user2", "1234", "user2@test.com", null);
-        Member emailMember = memberService.join("허경주", "1234", "beewt@naver.com",null);
-
+        Member admin = memberService.join("허경주", "1234", "beewt@naver.com",null);
+        admin.setAuthLevel(AuthLevel.ADMIN); // 관리자 권한 부여
+        memberRepository.save(admin);
         postService.write(
                 "자바를 우아하게 사용하는 방법",
                 "# 내용 1",

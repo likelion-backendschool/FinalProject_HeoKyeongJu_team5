@@ -1,5 +1,6 @@
 package com.mutbook.week3_mission.app.base.initData;
 
+import com.mutbook.week3_mission.app.domain.member.repository.MemberRepository;
 import com.mutbook.week3_mission.app.domain.member.service.MemberService;
 import com.mutbook.week3_mission.app.domain.post.service.PostService;
 import com.mutbook.week3_mission.app.domain.product.service.ProductService;
@@ -15,9 +16,10 @@ public class DevInitData implements InitDataBefore{
     CommandLineRunner initData(
             MemberService memberService,
             PostService postService,
-            ProductService productService) {
+            ProductService productService,
+            MemberRepository memberRepository) {
         return args -> {
-            before(memberService, postService, productService);
+            before(memberService, postService, productService,memberRepository);
         };
     }
 }
