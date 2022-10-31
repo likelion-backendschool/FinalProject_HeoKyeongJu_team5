@@ -7,11 +7,13 @@ import com.mutbook.week3_mission.app.base.rq.Rq;
 import com.mutbook.week3_mission.app.domain.member.entity.Member;
 import com.mutbook.week3_mission.app.domain.member.service.MemberService;
 import com.mutbook.week3_mission.app.domain.order.entity.Order;
+import com.mutbook.week3_mission.app.domain.order.exception.ActorCanNotPayOrderException;
 import com.mutbook.week3_mission.app.domain.order.exception.ActorCanNotSeeOrderException;
 import com.mutbook.week3_mission.app.domain.order.exception.OrderIdNotMatchedException;
 import com.mutbook.week3_mission.app.domain.order.exception.OrderNotEnoughCashException;
 import com.mutbook.week3_mission.app.domain.order.service.OrderService;
 import com.mutbook.week3_mission.app.security.dto.MemberContext;
+import com.mutbook.week3_mission.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -66,7 +68,7 @@ public class OrderController {
         model.addAttribute("order", order);
         model.addAttribute("actorCash", restCash);
 
-        return "/order/detail";
+        return "order/detail";
     }
     @GetMapping("/list")
     @PreAuthorize("isAuthenticated()")
@@ -76,7 +78,23 @@ public class OrderController {
 
         return "/order/list";
     }
+    @PostMapping("/{id}/payByRestCashOnly")
+    @PreAuthorize("isAuthenticated()")
+    public String payByRestCashOnly(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id) {
+        Order order = orderService.findForPrintById(id).get();
 
+        Member actor = memberContext.getMember();
+
+        long restCash = memberService.getCash(actor);
+
+        if (orderService.actorCanPayment(actor, order) == false) {
+            throw new ActorCanNotPayOrderException();
+        }
+
+        RsData rsData = orderService.payByRestCashOnly(order);
+
+        return "redirect:/order/%d?msg=%s".formatted(order.getId(), Util.url.encode("예치금으로 결제했습니다."));
+    }
     @PostConstruct
     private void init() {
         restTemplate.setErrorHandler(new ResponseErrorHandler() {

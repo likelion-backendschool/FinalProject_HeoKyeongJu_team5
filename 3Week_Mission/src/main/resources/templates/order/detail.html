@@ -147,12 +147,12 @@
                             <span class="ml-2">환불가능시간이 지났습니다</span>
                         </a>
 
-                        <a th:if="${order.isCanceled()}"
+                        <a th:if="${order.orderStatus.equals(CANCELED_STATUS)}"
                            class="btn btn-sm btn-outline btn-primary btn-disabled">
                             <span class="ml-2">취소된 주문 입니다.</span>
                         </a>
 
-                        <a th:if="${order.isRefunded()}"
+                        <a th:if="${order.orderStatus.equals(REFUNDED_STATUS)}"
                            class="btn btn-sm btn-outline btn-primary btn-disabled">
                             <span class="ml-2">환불된 주문입니다.</span>
                         </a>
