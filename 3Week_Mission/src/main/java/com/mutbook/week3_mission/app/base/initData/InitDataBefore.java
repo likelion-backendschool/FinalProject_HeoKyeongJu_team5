@@ -14,6 +14,8 @@ public interface InitDataBefore {
         Member member2 = memberService.join("user2", "1234", "user2@test.com", null);
         Member admin = memberService.join("허경주", "1234", "beewt@naver.com",null);
         admin.setAuthLevel(AuthLevel.ADMIN); // 관리자 권한 부여
+        memberService.beAuthor(member1, member1.getNickname());
+        memberRepository.save(member1);
         memberRepository.save(admin);
         postService.write(
                 "자바를 우아하게 사용하는 방법",
