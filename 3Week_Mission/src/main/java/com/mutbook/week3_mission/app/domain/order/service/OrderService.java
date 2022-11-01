@@ -9,6 +9,7 @@ import com.mutbook.week3_mission.app.domain.myBook.service.MyBookService;
 import com.mutbook.week3_mission.app.domain.order.entity.Order;
 import com.mutbook.week3_mission.app.domain.order.entity.OrderItem;
 import com.mutbook.week3_mission.app.domain.order.entity.OrderStatus;
+import com.mutbook.week3_mission.app.domain.order.repository.OrderItemRepository;
 import com.mutbook.week3_mission.app.domain.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class OrderService {
     private final CartService cartService;
     private final OrderRepository orderRepository;
     private final MyBookService myBookService;
+    private final OrderItemRepository orderItemRepository;
+
 
     @Transactional
     public Order createFromCart(Member member) {
@@ -220,5 +223,8 @@ public class OrderService {
         }
 
         return RsData.of("S-1", "취소할 수 있습니다.");
+    }
+    public List<OrderItem> findAllByPayDateBetween(LocalDateTime fromDate, LocalDateTime toDate) {
+        return orderItemRepository.findAllByPayDateBetween(fromDate, toDate);
     }
 }
