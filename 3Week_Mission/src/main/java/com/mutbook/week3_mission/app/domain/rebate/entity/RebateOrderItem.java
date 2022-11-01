@@ -38,18 +38,26 @@ public class RebateOrderItem extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Product product;
-    @ManyToOne(fetch = LAZY)
 
+    @ManyToOne(fetch = LAZY)
     @ToString.Exclude
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private CashLog rebateCashLog; // 정산에 관련된 환급지급내역
+    private LocalDateTime rebateDate;
 
-    // 회원
+    // 구매자
     @ManyToOne(fetch = LAZY)
     @ToString.Exclude
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member buyer;
     private String buyerName;
+
+    // 판매자
+    @ManyToOne(fetch = LAZY)
+    @ToString.Exclude
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member seller;
+    private String sellerName;
 
     // 가격
     private int price; // 권장판매가
@@ -89,5 +97,29 @@ public class RebateOrderItem extends BaseEntity {
         // 주문품목 추가데이터
         buyer = orderItem.getOrder().getBuyer();
         buyerName = orderItem.getOrder().getBuyer().getNickname();
+
+        // 판매자 추가데이터
+        seller = orderItem.getProduct().getAuthor();
+        sellerName = orderItem.getProduct().getAuthor().getNickname();
+    }
+    public int calcRebatePrice() {
+        if (refundPrice > 0) {
+            return 0;
+        }
+
+        return wholesalePrice - pgFee;
+    }
+
+    public boolean isRebateAvailable() {
+        if (refundPrice > 0 || rebateDate != null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public void setRebateDone(long cashLogId) {
+        rebateDate = LocalDateTime.now();
+        this.rebateCashLog = new CashLog(cashLogId);
     }
 }

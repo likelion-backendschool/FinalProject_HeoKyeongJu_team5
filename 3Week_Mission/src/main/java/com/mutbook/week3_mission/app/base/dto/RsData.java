@@ -1,5 +1,6 @@
 package com.mutbook.week3_mission.app.base.dto;
 
+import com.mutbook.week3_mission.util.Util;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,4 +37,11 @@ public class RsData<T> {
         return isSuccess() == false;
     }
 
+    public String addMsgToUrl(String url) {
+        if ( isFail() ) {
+            return Util.url.modifyQueryParam(url, "errorMsg", getMsg());
+        }
+
+        return Util.url.modifyQueryParam(url, "msg", getMsg());
+    }
 }

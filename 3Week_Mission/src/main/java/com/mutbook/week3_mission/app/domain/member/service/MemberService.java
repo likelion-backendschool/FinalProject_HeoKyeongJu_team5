@@ -99,7 +99,7 @@ public class MemberService {
     }
 
     @Transactional
-    public RsData<AddCashRsDataBody> addCash(Member member, Long price, String eventType) {
+    public RsData<AddCashRsDataBody> addCash(Member member, long price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         long newRestCash = member.getCash() + cashLog.getPrice();
