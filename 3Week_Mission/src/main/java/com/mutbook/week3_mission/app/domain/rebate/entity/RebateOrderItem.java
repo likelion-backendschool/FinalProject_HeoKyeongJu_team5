@@ -1,6 +1,8 @@
 package com.mutbook.week3_mission.app.domain.rebate.entity;
 
 import com.mutbook.week3_mission.app.base.entity.BaseEntity;
+import com.mutbook.week3_mission.app.domain.cash.entity.CashLog;
+import com.mutbook.week3_mission.app.domain.member.entity.Member;
 import com.mutbook.week3_mission.app.domain.order.entity.Order;
 import com.mutbook.week3_mission.app.domain.order.entity.OrderItem;
 import com.mutbook.week3_mission.app.domain.product.entity.Product;
@@ -36,6 +38,18 @@ public class RebateOrderItem extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Product product;
+    @ManyToOne(fetch = LAZY)
+
+    @ToString.Exclude
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private CashLog rebateCashLog; // 정산에 관련된 환급지급내역
+
+    // 회원
+    @ManyToOne(fetch = LAZY)
+    @ToString.Exclude
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member buyer;
+    private String buyerName;
 
     // 가격
     private int price; // 권장판매가
@@ -71,5 +85,9 @@ public class RebateOrderItem extends BaseEntity {
 
         // 주문품목 추가데이터
         orderItemCreateDate = orderItem.getCreateDate();
+
+        // 주문품목 추가데이터
+        buyer = orderItem.getOrder().getBuyer();
+        buyerName = orderItem.getOrder().getBuyer().getNickname();
     }
 }
