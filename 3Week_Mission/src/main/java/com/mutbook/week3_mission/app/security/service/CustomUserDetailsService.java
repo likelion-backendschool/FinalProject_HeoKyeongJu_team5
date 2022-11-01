@@ -1,5 +1,6 @@
 package com.mutbook.week3_mission.app.security.service;
 
+import com.mutbook.week3_mission.app.domain.member.entity.AuthLevel;
 import com.mutbook.week3_mission.app.domain.member.entity.Member;
 import com.mutbook.week3_mission.app.domain.member.entity.Type;
 import com.mutbook.week3_mission.app.domain.member.repository.MemberRepository;
@@ -25,7 +26,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         Member member = memberRepository.findByUsername(username).get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(Type.USER.toString()));
+
+        if (member.getUsername().equals("허경주")) {
+            authorities.add(new SimpleGrantedAuthority(AuthLevel.ADMIN.getValue()));
+        }
+
+        authorities.add(new SimpleGrantedAuthority(AuthLevel.NORMAL.getValue()));
 
         return new MemberContext(member, authorities);
     }
