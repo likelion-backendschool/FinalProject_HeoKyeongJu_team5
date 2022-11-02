@@ -17,8 +17,7 @@ import java.util.List;
 public class WithdrawService {
     private final WithdrawRepository withdrawRepository;
     private final Rq rq;
-    public Withdraw apply(String accountNumber, String bank, long withdrawAmount){
-        Member member = rq.getMember();
+    public Withdraw apply(Member member, String accountNumber, String bank, long withdrawAmount){
         long cash = member.getCash();
         long amount = withdrawAmount;
 
@@ -30,7 +29,7 @@ public class WithdrawService {
                 .accountNumber(accountNumber)
                 .bank(bank)
                 .withdrawAmount(withdrawAmount)
-                .member(rq.getMember())
+                .member(member)
                 .applyStatus(ApplyStatus.READY_STATUS)
                 .build();
 
@@ -41,6 +40,10 @@ public class WithdrawService {
     public List<Withdraw> findAllByMember(Member member) {
         List<Withdraw> withdraws= withdrawRepository.findAllByMemberId(member.getId());
         return withdraws;
+    }
+
+    public List<Withdraw> findAll() {
+        return withdrawRepository.findAll();
     }
 }
 

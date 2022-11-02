@@ -1,10 +1,14 @@
 package com.mutbook.week3_mission.app.domain.withdraw.controller;
 
 import com.mutbook.week3_mission.app.base.rq.Rq;
+import com.mutbook.week3_mission.app.domain.member.entity.Member;
 import com.mutbook.week3_mission.app.domain.withdraw.dto.WithdrawDto;
 import com.mutbook.week3_mission.app.domain.withdraw.entity.Withdraw;
 import com.mutbook.week3_mission.app.domain.withdraw.service.WithdrawService;
+import com.mutbook.week3_mission.app.security.dto.MemberContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +26,7 @@ public class WithdrawController {
     private final Rq rq;
 
     @GetMapping("")
+    @PreAuthorize("isAuthenticated()")
     public String showList(Model model){
         List<Withdraw> items = withdrawService.findAllByMember(rq.getMember());
         model.addAttribute("items", items);
@@ -29,12 +34,15 @@ public class WithdrawController {
     }
 
     @GetMapping("/apply")
+    @PreAuthorize("isAuthenticated()")
     public String showApplyForm(){
         return "/withdraw/apply";
     }
     @PostMapping("/apply")
-    public String apply(@Valid WithdrawDto withdrawDto){
-        withdrawService.apply(withdrawDto.getAccountNumber(), withdrawDto.getBank(), withdrawDto.getWithdrawAmount());
+    @PreAuthorize("isAuthenticated()")
+    public String apply(@AuthenticationPrincipal MemberContext memberContext, @Valid WithdrawDto withdrawDto){
+        Member member = memberContext.getMember();
+        withdrawService.apply(member, withdrawDto.getAccountNumber(), withdrawDto.getBank(), withdrawDto.getWithdrawAmount());
         return "redirect:/withdraw";
     }
 }
