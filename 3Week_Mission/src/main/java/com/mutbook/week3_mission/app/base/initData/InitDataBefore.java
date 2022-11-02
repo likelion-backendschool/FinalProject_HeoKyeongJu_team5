@@ -7,9 +7,10 @@ import com.mutbook.week3_mission.app.domain.member.service.MemberService;
 import com.mutbook.week3_mission.app.domain.post.service.PostService;
 import com.mutbook.week3_mission.app.domain.product.entity.Product;
 import com.mutbook.week3_mission.app.domain.product.service.ProductService;
+import com.mutbook.week3_mission.app.domain.withdraw.service.WithdrawService;
 
 public interface InitDataBefore {
-    default void before(MemberService memberService, PostService postService, ProductService productService, MemberRepository memberRepository) {
+    default void before(MemberService memberService, PostService postService, ProductService productService, MemberRepository memberRepository, WithdrawService withdrawService) {
         Member member1 = memberService.join("user1", "1234", "user1@test.com","꿀벌");
         Member member2 = memberService.join("user2", "1234", "user2@test.com", null);
         Member admin = memberService.join("허경주", "1234", "beewt@naver.com",null);
@@ -60,8 +61,11 @@ public interface InitDataBefore {
         memberService.addCash(member1, 20_000L, "충전__무통장입금");
         memberService.addCash(member1, -5_000L, "출금__일반");
         memberService.addCash(member1, 1_000_000L, "충전__무통장입금");
-
         memberService.addCash(member2, 2_000_000L, "충전__무통장입금");
+
+        withdrawService.apply(member1,"123412341234","카카오뱅크",10000L);
+        withdrawService.apply(member2,"987098709870","신협",8000L);
+        withdrawService.apply(member1,"123412341234","카카오뱅크",5000L);
 
     }
 }
