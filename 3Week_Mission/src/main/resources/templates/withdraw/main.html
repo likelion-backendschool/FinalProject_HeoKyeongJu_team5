@@ -2,12 +2,41 @@
 <html layout:decorate="~{layout/layout.html}">
 
 <head>
-    <title> 예치금 출금 </title>
+    <title> 예치금 출금 리스트 </title>
 </head>
 
 <body>
 <main layout:fragment="main">
-    예치금 출금
+    <div class="container mx-auto mt-5">
+        <div style="justify-content: center; align-items: center">
+            <span>예치금 출금 리스트 (히스토리)</span>
+            <a href="/withdraw/apply" class="mx-2 btn" style="background-color: coral; border: 0px;width: 100px;">출금 신청</a>
+        </div>
+        <div class="overflow-x-auto mt-5">
+            <table class="table table-compact w-full">
+                <thead>
+                <tr>
+                    <th>
+                    </th>
+                    <th>신청 날짜</th>
+                    <th>은행</th>
+                    <th>계좌 번호</th>
+                    <th>신청 금액</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.createDate}"></td>
+                    <td th:text="${item.bank}"></td>
+                    <td th:text="${item.accountNumber}"></td>
+                    <td th:text="${item.withdrawAmount}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </main>
 </body>
 </html>

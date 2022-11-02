@@ -24,8 +24,7 @@ public class Withdraw extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @ToString.Exclude
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Member seller;
-    private String sellerName;
+    private Member member;
 
     @Column(name = "account_number")
     private String accountNumber;
@@ -34,5 +33,5 @@ public class Withdraw extends BaseEntity {
     private String bank;
 
     @Column(name = "withdraw_amount")
-    private int withdrawAmount;
+    private long withdrawAmount;
 }
