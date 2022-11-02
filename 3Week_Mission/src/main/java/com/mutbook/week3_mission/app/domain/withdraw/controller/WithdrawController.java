@@ -36,6 +36,6 @@ public class WithdrawController {
     @PostMapping("/apply")
     public String apply(@Valid WithdrawDto withdrawDto){
         withdrawService.apply(withdrawDto.getAccountNumber(), withdrawDto.getBank(), withdrawDto.getWithdrawAmount());
-        return "redirect:/withdraw/main";
+        return "redirect:/withdraw";
     }
 }
