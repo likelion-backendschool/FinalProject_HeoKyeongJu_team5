@@ -56,7 +56,12 @@
             </a>
             <a href="/admin/rebate/makeData" class="inline-flex" sec:authorize="hasAuthority('ADMIN')">
                 <span class="ml-[2px] hidden sm:block">
-                     정산
+                     정산 관리
+                 </span>
+            </a>
+            <a href="/admin/withdraw/applyList" class="inline-flex" sec:authorize="hasAuthority('ADMIN')">
+                <span class="ml-[2px] hidden sm:block">
+                     출금 관리
                  </span>
             </a>
             <a href="javascript: document.logoutForm.submit();" class="inline-flex"
