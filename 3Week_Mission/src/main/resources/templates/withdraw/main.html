@@ -16,22 +16,23 @@
             <table class="table table-compact w-full">
                 <thead>
                 <tr>
-                    <th>
-                    </th>
+                    <th>순번</th>
                     <th>신청 날짜</th>
                     <th>은행</th>
                     <th>계좌 번호</th>
                     <th>신청 금액</th>
+                    <th>신청 상태</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr th:each="item : ${items}">
                     <td th:text="${item.id}"></td>
-                    <td th:text="${item.createDate}"></td>
+                    <td th:text="${#temporals.format(item.createDate, 'yy-MM-dd HH:mm')}"></td>
                     <td th:text="${item.bank}"></td>
                     <td th:text="${item.accountNumber}"></td>
                     <td th:text="${item.withdrawAmount}"></td>
+                    <td th:text="${item.applyStatus.stateOfApply}"></td>
                 </tr>
                 </tbody>
             </table>

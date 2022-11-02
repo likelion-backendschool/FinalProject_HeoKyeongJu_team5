@@ -34,4 +34,7 @@ public class Withdraw extends BaseEntity {
 
     @Column(name = "withdraw_amount")
     private long withdrawAmount;
+
+    @Column(name = "apply_status")
+    private ApplyStatus applyStatus;
 }

@@ -22,15 +22,14 @@ public class WithdrawController {
     private final Rq rq;
 
     @GetMapping("")
-    public String showList(){
+    public String showList(Model model){
+        List<Withdraw> items = withdrawService.findAllByMember(rq.getMember());
+        model.addAttribute("items", items);
         return "/withdraw/main";
     }
 
     @GetMapping("/apply")
-    public String showApplyForm(Model model){
-        List<Withdraw> items = withdrawService.findAllByMember(rq.getMember());
-
-        model.addAttribute("items", items);
+    public String showApplyForm(){
         return "/withdraw/apply";
     }
     @PostMapping("/apply")
