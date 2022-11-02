@@ -17,9 +17,10 @@ public class MemberContext extends User {
     private final LocalDateTime createDate;
     private final LocalDateTime modifyDate;
     private final String username;
+    private final String nickname;
     private final String email;
     private AuthLevel authLevel;
-    private Type type;
+    private final long cash;
 
     public MemberContext(Member member, List<GrantedAuthority> authorities) {
         super(member.getUsername(), member.getPassword(), authorities);
@@ -27,9 +28,10 @@ public class MemberContext extends User {
         this.createDate = member.getCreateDate();
         this.modifyDate = member.getModifyDate();
         this.username = member.getUsername();
+        this.nickname = member.getNickname();
         this.email = member.getEmail();
         this.authLevel = member.getAuthLevel();
-        //this.type = member.getType();
+        this.cash = member.getCash();
     }
 
     public Member getMember() {
@@ -41,7 +43,8 @@ public class MemberContext extends User {
                 .username(username)
                 .email(email)
                 .authLevel(authLevel)
-                //.type(type)
+                .cash(cash)
+                .nickname(nickname)
                 .build();
     }
 
