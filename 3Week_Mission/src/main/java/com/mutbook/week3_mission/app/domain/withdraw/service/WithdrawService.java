@@ -1,6 +1,5 @@
 package com.mutbook.week3_mission.app.domain.withdraw.service;
 
-import com.mutbook.week3_mission.app.base.rq.Rq;
 import com.mutbook.week3_mission.app.domain.member.entity.Member;
 import com.mutbook.week3_mission.app.domain.withdraw.entity.ApplyStatus;
 import com.mutbook.week3_mission.app.domain.withdraw.entity.Withdraw;
@@ -16,7 +15,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class WithdrawService {
     private final WithdrawRepository withdrawRepository;
-    private final Rq rq;
     public Withdraw apply(Member member, String accountNumber, String bank, long withdrawAmount){
         long cash = member.getCash();
         long amount = withdrawAmount;

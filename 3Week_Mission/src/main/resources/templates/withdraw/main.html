@@ -26,8 +26,8 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="item : ${items}">
-                    <td th:text="${item.id}"></td>
+                <tr th:each="item,i : ${items}">
+                    <td th:text="${i.count}"></td>
                     <td th:text="${#temporals.format(item.createDate, 'yy-MM-dd HH:mm')}"></td>
                     <td th:text="${item.bank}"></td>
                     <td th:text="${item.accountNumber}"></td>
