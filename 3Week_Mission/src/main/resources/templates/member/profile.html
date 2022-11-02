@@ -42,7 +42,14 @@
                         <span class="label-text">필명</span>
                     </label>
                     <div class="badge" style="background-color: #ff8c00; border-color: transparent"
-                         th:text="${@rq.member.nickname != null ? @rq.getMember().nickname : '-'}"></div>
+                         th:text="${@rq.member.nickname != null ? @rq.member.nickname : '-'}"></div>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text"> 보유 예치금 </span>
+                    </label>
+                    <div class="badge" style="background-color: #ff8c00; border-color: transparent" th:text="${@rq.member.cash}"></div>
                 </div>
 
                 <div class="grid grid-cols-2 mt-2 gap-2">
