@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
+
+<head>
+    <title> 예치금 출금 신청 </title>
+</head>
+
+<body>
+<main layout:fragment="main">
+  <section class="section section-login flex-grow flex flex-col items-center justify-center">
+    <div class="max-w-md w-full px-2 pt-4">
+        <h1 class="font-bold text-lg">출금 신청폼</h1>
+
+        <script>
+            let WDApply__submitDone = false;
+
+            function WDApply__submit(form) {
+                if (WDApply__submitDone) {
+                    return;
+                }
+
+                form.bank.value = form.bank.value.trim();
+
+                if (form.bank.value.length == 0) {
+                    warningModal("은행명을 입력해주세요");
+                    form.bank.focus();
+
+                    return;
+                }
+
+                form.accountNumber.value = form.accountNumber.value.trim();
+
+                if (form.accountNumber.value.length == 0) {
+                    warningModal("계좌 번호를 입력해주세요.");
+                    form.accountNumber.focus();
+
+                    return;
+                }
+
+                form.withdrawAmount.value = form.withdrawAmount.value.trim();
+
+                if (form.withdrawAmount.value.length == 0) {
+                    warningModal("출금할 금액을 입력해주세요.");
+                    form.withdrawAmount.focus();
+
+                    return;
+                }
+
+                form.submit();
+                WDApply__submitDone = true;
+            }
+        </script>
+
+
+        <form th:action method="POST" class="flex flex-col gap-3"
+              onsubmit="WDApply__submit(this); return false;">
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">은행명</span>
+                </label>
+                <input autofocus type="text" name="bank" placeholder="은행명" class="input input-bordered"
+                       maxlength="100">
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">계좌 번호</span>
+                </label>
+                <input type="text" name="accountNumber"
+                       placeholder="계좌 번호" class="input input-bordered" maxlength="100">
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">출금 신청 금액</span>
+                </label>
+                <input type="text" name="withdrawAmount"
+                       placeholder="출금 금액" class="input input-bordered" maxlength="50">
+            </div>
+
+            <div class="grid grid-cols-2 mt-2 gap-2">
+                <input class="btn" style="background-color: #ff8c00; border-color: #ff8c00" type="submit"
+                       value="신청하기">
+            </div>
+        </form>
+    </div>
+  </section>
+</main>
+</body>
+</html>
