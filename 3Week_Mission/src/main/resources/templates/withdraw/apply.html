@@ -46,6 +46,12 @@
                     return;
                 }
 
+                if (form.withdrawAmount.value <= 0) {
+                    warningModal("올바른 금액을 입력해주세요.");
+                    form.withdrawAmount.focus();
+                    return;
+                }
+
                 form.submit();
                 WDApply__submitDone = true;
             }
