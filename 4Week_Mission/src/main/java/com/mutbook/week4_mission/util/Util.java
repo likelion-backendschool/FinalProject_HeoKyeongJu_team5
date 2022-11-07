@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -28,6 +29,14 @@ public class Util {
         public static Object toStr(Map<String, Object> map) {
             try {
                 return getObjectMapper().writeValueAsString(map);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        public static String  toStr(RsData rsData) {
+            try {
+                return getObjectMapper().writeValueAsString(rsData).toString();
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 return null;
@@ -155,6 +164,9 @@ public class Util {
         }
     }
     public static class date {
+        public static LocalDateTime bitsToLocalDateTime(List<Integer> bits) {
+            return LocalDateTime.of(bits.get(0), bits.get(1), bits.get(2), bits.get(3), bits.get(4), bits.get(5), bits.get(6));
+        }
         public static int getEndDayOf(int year, int month) {
             String yearMonth = year + "-" + "%02d".formatted(month);
 

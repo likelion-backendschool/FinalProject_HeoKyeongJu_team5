@@ -2,6 +2,7 @@ package com.mutbook.week4_mission.app.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mutbook.week4_mission.app.base.entity.BaseEntity;
+import com.mutbook.week4_mission.util.Util;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +14,11 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -38,12 +42,10 @@ public class Member extends BaseEntity {
     @Convert(converter = AuthLevel.Converter.class)
     @Column(name = "auth_level")
     private AuthLevel authLevel;
-
     @Column(name ="cash")
     private long cash;
-    @Enumerated(STRING)
-//    @Column(name = "type")
-//    private Type type;
+    @Column(columnDefinition = "TEXT")
+    private String accessToken;
 
     public List<GrantedAuthority> genAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -55,5 +57,55 @@ public class Member extends BaseEntity {
         }
 
         return authorities;
+    }
+
+    public static Member fromMap(Map<String, Object> map) {
+        return fromJwtClaims(map);
+    }
+
+    public static Member fromJwtClaims(Map<String, Object> jwtClaims) {
+        long id = 0;
+
+        if (jwtClaims.get("id") instanceof Long) {
+            id = (long) jwtClaims.get("id");
+        } else if (jwtClaims.get("id") instanceof Integer) {
+            id = (long) (int) jwtClaims.get("id");
+        }
+
+        LocalDateTime createDate = null;
+        LocalDateTime modifyDate = null;
+
+        if (jwtClaims.get("createDate") instanceof List) {
+            createDate = Util.date.bitsToLocalDateTime((List<Integer>) jwtClaims.get("createDate"));
+        }
+
+        if (jwtClaims.get("modifyDate") instanceof List) {
+            modifyDate = Util.date.bitsToLocalDateTime((List<Integer>) jwtClaims.get("modifyDate"));
+        }
+
+        String username = (String) jwtClaims.get("username");
+        String email = (String) jwtClaims.get("email");
+        String accessToken = (String) jwtClaims.get("accessToken");
+
+        return Member
+                .builder()
+                .id(id)
+                .createDate(createDate)
+                .modifyDate(modifyDate)
+                .username(username)
+                .email(email)
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public Map<String, Object> getAccessTokenClaims() {
+        return Util.mapOf(
+                "id", getId(),
+                "createDate", getCreateDate(),
+                "modifyDate", getModifyDate(),
+                "username", getUsername(),
+                "email", getEmail(),
+                "authorities", genAuthorities()
+        );
     }
 }
