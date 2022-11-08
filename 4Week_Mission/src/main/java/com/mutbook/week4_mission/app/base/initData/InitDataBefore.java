@@ -62,6 +62,7 @@ public interface InitDataBefore {
         memberService.addCash(member1, -5_000L, "출금__일반");
         memberService.addCash(member1, 1_000_000L, "충전__무통장입금");
         memberService.addCash(member2, 2_000_000L, "충전__무통장입금");
+        memberService.addCash(admin, 2_000_000L, "충전__무통장입금");
 
         withdrawService.apply(member1,"123412341234","카카오뱅크",10000L);
         withdrawService.apply(member2,"987098709870","신협",8000L);
