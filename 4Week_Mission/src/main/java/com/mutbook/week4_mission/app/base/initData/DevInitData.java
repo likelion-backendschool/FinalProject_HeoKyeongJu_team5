@@ -1,7 +1,10 @@
 package com.mutbook.week4_mission.app.base.initData;
 
+import com.mutbook.week4_mission.app.domain.cart.service.CartService;
 import com.mutbook.week4_mission.app.domain.member.repository.MemberRepository;
 import com.mutbook.week4_mission.app.domain.member.service.MemberService;
+import com.mutbook.week4_mission.app.domain.myBook.service.MyBookService;
+import com.mutbook.week4_mission.app.domain.order.service.OrderService;
 import com.mutbook.week4_mission.app.domain.post.service.PostService;
 import com.mutbook.week4_mission.app.domain.product.service.ProductService;
 import com.mutbook.week4_mission.app.domain.withdraw.service.WithdrawService;
@@ -19,9 +22,12 @@ public class DevInitData implements InitDataBefore{
             PostService postService,
             ProductService productService,
             MemberRepository memberRepository,
-            WithdrawService withdrawService) {
+            WithdrawService withdrawService,
+            OrderService orderService,
+            MyBookService myBookService,
+            CartService cartService) {
         return args -> {
-            before(memberService, postService, productService,memberRepository, withdrawService);
+            before(memberService, postService, productService,memberRepository, withdrawService,orderService,myBookService,cartService);
         };
     }
 }
