@@ -1,6 +1,7 @@
 package com.mutbook.week4_mission.app.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mutbook.week4_mission.app.base.entity.BaseEntity;
 import com.mutbook.week4_mission.util.Util;
 import lombok.Getter;
@@ -29,6 +30,7 @@ import static javax.persistence.EnumType.STRING;
 @SuperBuilder
 @Table(name = "member")
 @ToString(callSuper = true, exclude = "password")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Member extends BaseEntity {
     @Column(unique = true, name = "username")
     private String username;

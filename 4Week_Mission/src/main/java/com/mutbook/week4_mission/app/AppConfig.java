@@ -2,6 +2,8 @@ package com.mutbook.week4_mission.app;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mutbook.week4_mission.app.domain.myBook.MyBooksResponse;
+import com.mutbook.week4_mission.app.domain.myBook.entity.MyBook;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.modelmapper.ModelMapper;
+
 
 import javax.persistence.EntityManager;
+
+import static org.modelmapper.convention.MatchingStrategies.STRICT;
 
 @Configuration
 public class AppConfig {
@@ -73,5 +79,19 @@ public class AppConfig {
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(STRICT).setSkipNullEnabled(true);
+        mapper.typeMap(MyBook.class, MyBooksResponse.class).addMappings(m -> {
+            m.map(source -> source.getId(), MyBooksResponse::setId);
+            m.map(source -> source.getCreateDate(), MyBooksResponse::setCreateDate);
+            m.map(source -> source.getModifyDate(), MyBooksResponse::setModifyDate);
+            m.map(source -> source.getOwner().getId(), MyBooksResponse::setOwnerId);
+            m.map(source -> source.getProduct(), MyBooksResponse::setProduct);
+        });
+        return mapper;
     }
 }

@@ -1,5 +1,6 @@
 package com.mutbook.week4_mission.app.domain.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mutbook.week4_mission.app.base.entity.BaseEntity;
 import com.mutbook.week4_mission.app.domain.member.entity.Member;
 import com.mutbook.week4_mission.app.domain.postkeyword.entity.PostKeyword;
@@ -21,6 +22,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @ToString(callSuper = true)
 public class Product extends BaseEntity {
     @ManyToOne(fetch = LAZY)

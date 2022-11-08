@@ -34,9 +34,9 @@ public class Util {
                 return null;
             }
         }
-        public static String  toStr(RsData rsData) {
+        public static String  toStr(Object object) {
             try {
-                return getObjectMapper().writeValueAsString(rsData).toString();
+                return getObjectMapper().writeValueAsString(object);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 return null;
@@ -76,7 +76,6 @@ public class Util {
         public static <T> ResponseEntity<RsData> responseEntityOf(RsData<T> rsData) {
             return responseEntityOf(rsData, null);
         }
-
         public static <T> ResponseEntity<RsData> responseEntityOf(RsData<T> rsData, HttpHeaders headers) {
             return new ResponseEntity<>(rsData, headers, rsData.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
         }

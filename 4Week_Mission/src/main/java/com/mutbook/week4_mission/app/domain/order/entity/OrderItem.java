@@ -1,5 +1,6 @@
 package com.mutbook.week4_mission.app.domain.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mutbook.week4_mission.app.base.entity.BaseEntity;
 import com.mutbook.week4_mission.app.domain.product.entity.Product;
 import lombok.Getter;
@@ -21,6 +22,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class OrderItem extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @ToString.Exclude
