@@ -25,14 +25,11 @@ import static javax.persistence.FetchType.LAZY;
 @ToString(callSuper = true)
 public class MyBook extends BaseEntity {
     @ManyToOne(fetch = LAZY)
-    @JsonIgnore
     private Member owner;
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     private Product product;
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     private OrderItem orderItem;
 }

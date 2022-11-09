@@ -1,5 +1,6 @@
 package com.mutbook.week4_mission.app.domain.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mutbook.week4_mission.app.base.entity.BaseEntity;
 import com.mutbook.week4_mission.app.domain.member.entity.Member;
@@ -28,6 +29,7 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     private Member author;
     @ManyToOne(fetch = LAZY)
+    @JsonIgnore
     private PostKeyword postKeyword;
     private String subject;
     private int price;

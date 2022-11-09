@@ -89,7 +89,7 @@ public class AppConfig {
             m.map(source -> source.getId(), MyBooksResponse::setId);
             m.map(source -> source.getCreateDate(), MyBooksResponse::setCreateDate);
             m.map(source -> source.getModifyDate(), MyBooksResponse::setModifyDate);
-            m.map(source -> source.getOwner().getId(), MyBooksResponse::setOwnerId);
+            m.map(source -> source.getOwner(), MyBooksResponse::setOwner); // 여기에서 안됨
             m.map(source -> source.getProduct(), MyBooksResponse::setProduct);
         });
         return mapper;
