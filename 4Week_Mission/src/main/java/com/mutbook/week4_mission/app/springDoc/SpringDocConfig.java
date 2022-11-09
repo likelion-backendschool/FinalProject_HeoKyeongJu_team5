@@ -17,9 +17,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
         scheme = "bearer"
 )
 public class SpringDocConfig {
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .anyRequest().authenticated();
-    }
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/swagger-ui/**").permitAll()
+//                .anyRequest().authenticated();
+//    }
 }

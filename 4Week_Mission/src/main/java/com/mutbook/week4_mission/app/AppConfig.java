@@ -2,6 +2,8 @@ package com.mutbook.week4_mission.app;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mutbook.week4_mission.app.domain.member.MemberResponse;
+import com.mutbook.week4_mission.app.domain.member.entity.Member;
 import com.mutbook.week4_mission.app.domain.myBook.MyBooksResponse;
 import com.mutbook.week4_mission.app.domain.myBook.entity.MyBook;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -91,6 +93,14 @@ public class AppConfig {
             m.map(source -> source.getModifyDate(), MyBooksResponse::setModifyDate);
             m.map(source -> source.getOwner(), MyBooksResponse::setOwner); // 여기에서 안됨
             m.map(source -> source.getProduct(), MyBooksResponse::setProduct);
+        });
+        mapper.typeMap(Member.class, MemberResponse.class).addMappings(m -> {
+            m.map(source -> source.getId(), MemberResponse::setId);
+            m.map(source -> source.getCreateDate(), MemberResponse::setCreateDate);
+            m.map(source -> source.getModifyDate(), MemberResponse::setModifyDate);
+            m.map(source -> source.getUsername(), MemberResponse::setUsername);
+            m.map(source -> source.getNickname(), MemberResponse::setNickname);
+            m.map(source -> source.getEmail(), MemberResponse::setEmail);
         });
         return mapper;
     }
