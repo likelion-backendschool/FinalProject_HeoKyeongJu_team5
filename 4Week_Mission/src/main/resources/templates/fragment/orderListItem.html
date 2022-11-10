@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/html">
+
+<body>
+<th:block th:fragment="orderListItem">
+  <div class="card shadow-xl" style="background-color: #fffefa">
+    <div class="card-body">
+      <h2 class="card-title flex flex-wrap">
+        <a th:href="@{|/order/${order.id}|}" class="mr-auto">
+          <div style="">
+            <div><span th:text="${order.name}"></span></div>
+            <div style="font-size: 14px">주문 상태 : <span th:text="${order.orderStatus}" ></span></div>
+            <div style="font-size: 14px">결제 예정 금액 : <span th:text="${order.payPrice}" ></span>원</div>
+          </div>
+        </a>
+      </h2>
+
+    </div>
+  </div>
+</th:block>
+</body>
+
+</html>
